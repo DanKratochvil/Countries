@@ -9,6 +9,7 @@ using System.Web.SessionState;
 using System.Web.Http;
 using System.Diagnostics;
 using System.Configuration;
+using System.IO;
 
 namespace Countries
 {
@@ -20,6 +21,12 @@ namespace Countries
             GlobalConfiguration.Configure(WebApiConfig.Register);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            string appDataPath = Server.MapPath("~/App_Data");
+            if (!Directory.Exists(appDataPath))
+            {
+                Directory.CreateDirectory(appDataPath);
+            }
         }
     }
 }

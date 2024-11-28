@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Timers;
+using System.Web.Hosting;
 using Countries.Models;
 using Countries.Repository;
 
@@ -17,7 +18,7 @@ namespace Countries.Services
         static double cacheExpiresSec = 60;
         static Dictionary<string, int> displayedCountries = new Dictionary<string, int>();
         static Timer timer = new Timer();
-        static StreamWriter log = new StreamWriter(ConfigurationManager.AppSettings["LogFileName"]);
+        static StreamWriter log = new StreamWriter(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["LogFileName"]));
 
         static CountryService()
         {
@@ -109,7 +110,7 @@ namespace Countries.Services
 
         static async Task GenerateStatisticsAsync()
         {
-            using (var sw = new StreamWriter(ConfigurationManager.AppSettings["StatFileName"]))
+            using (var sw = new StreamWriter(HostingEnvironment.MapPath(ConfigurationManager.AppSettings["StatFileName"])))
             {
                 foreach (var key in displayedCountries.Keys)
                     await sw.WriteLineAsync($"{key} displayed {displayedCountries[key]} times");
